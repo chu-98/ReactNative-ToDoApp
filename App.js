@@ -1,29 +1,54 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import { theme } from "./colors";
 
 export default function App() {
+  const [working, setWorking] = useState(true);
+  const [text, setText] = useState("");
+
+  const travel = () => setWorking(false);
+  const work = () => setWorking(true);
+  const onChangeText = payload => setText(payload);
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.header}>
-        <TouchableOpacity>
-          <Text style={styles.btnText}>Work</Text>
+        <TouchableOpacity onPress={work}>
+          <Text
+            style={{ ...styles.btnText, color: working ? "white" : theme.grey }}
+          >
+            Work
+          </Text>
         </TouchableOpacity>
-        <TouchableHighlight
-          underlayColor="#DDDDDD"
-          onPress={() => console.log("Pressed!")}
-        >
-          <Text style={styles.btnText}>Travel</Text>
-        </TouchableHighlight>
+        <TouchableOpacity onPress={travel}>
+          <Text
+            style={{
+              ...styles.btnText,
+              color: !working ? "white" : theme.grey,
+            }}
+          >
+            Travel
+          </Text>
+        </TouchableOpacity>
       </View>
+      <TextInput
+        autoCapitalize
+        onChangeText={onChangeText}
+        multiline
+        value={text}
+        returnKeyType="send"
+        keyboardType="default"
+        placeholder={working ? "Add a To Do" : "Where to go?"}
+        style={styles.input}
+      />
     </View>
   );
 }
@@ -43,5 +68,13 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: "600",
     color: "white",
+  },
+  input: {
+    backgroundColor: "white",
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    borderRadius: 30,
+    marginTop: 30,
+    fontSize: 17,
   },
 });
