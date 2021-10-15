@@ -6,6 +6,7 @@ import {
   View,
   TouchableOpacity,
   TextInput,
+  ScrollView,
 } from "react-native";
 import { theme } from "./colors";
 
@@ -21,9 +22,7 @@ export default function App() {
     if (text === "") {
       return;
     }
-    const newToDos = Object.assign({}, toDos, {
-      [Date.now()]: { text, work: working },
-    });
+    const newToDos = { ...toDos, [Date.now()]: { text, work: working } };
     setToDos(newToDos);
     setText("");
   };
@@ -60,6 +59,13 @@ export default function App() {
         placeholder={working ? "Add a To Do" : "Where to go?"}
         style={styles.input}
       />
+      <ScrollView>
+        {Object.keys(toDos).map(key => (
+          <View style={styles.toDo} key={key}>
+            <Text style={styles.toDoText}>{toDos[key].text}</Text>
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
 }
@@ -84,8 +90,21 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     paddingHorizontal: 20,
     paddingVertical: 15,
-    borderRadius: 30,
+    borderRadius: 13,
     marginTop: 30,
+    marginBottom: 40,
     fontSize: 17,
+  },
+  toDo: {
+    backgroundColor: theme.toDoBG,
+    marginBottom: 10,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 13,
+  },
+  toDoText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "500",
   },
 });
