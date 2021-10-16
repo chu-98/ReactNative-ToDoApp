@@ -4,11 +4,11 @@
     "slug": "tdtapp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/tesla-loading.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/tesla-loading.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -17,16 +17,18 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.chooble.tdtapp"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+        "foregroundImage": "./assets/tesla-loading.png",
+        "backgroundColor": "#000000"
+      },
+      "package": "com.chooble.tdtapp"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/tesla-loading.png"
     },
     "description": ""
   }
