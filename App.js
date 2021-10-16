@@ -10,6 +10,7 @@ import {
   TextInput,
   ScrollView,
   Alert,
+  Platform,
 } from "react-native";
 import { theme } from "./colors";
 
@@ -22,6 +23,7 @@ export default function App() {
 
   const travel = () => setWorking(false);
   const work = () => setWorking(true);
+
   const onChangeText = payload => setText(payload);
 
   const saveToDos = async toSave => {
@@ -56,19 +58,29 @@ export default function App() {
   };
 
   const deleteToDo = async key => {
-    Alert.alert("Delete To Do", "Are you sure?", [
-      { text: "Cancel", style: "cancel" },
-      {
-        text: "I'm Sure",
-        style: "destructive",
-        onPress: async () => {
-          const newToDos = { ...toDos };
-          delete newToDos[key];
-          setToDos(newToDos);
-          await saveToDos(newToDos);
+    if (Platform.OS === "web") {
+      const ok = confirm("Do you want to delete this To Do?");
+      if (ok) {
+        const newToDos = { ...toDos };
+        delete newToDos[key];
+        setToDos(newToDos);
+        await saveToDos(newToDos);
+      }
+    } else {
+      Alert.alert("Delete To Do", "Are you sure?", [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "I'm Sure",
+          style: "destructive",
+          onPress: async () => {
+            const newToDos = { ...toDos };
+            delete newToDos[key];
+            setToDos(newToDos);
+            await saveToDos(newToDos);
+          },
         },
-      },
-    ]);
+      ]);
+    }
   };
 
   return (
@@ -77,7 +89,12 @@ export default function App() {
       <View style={styles.header}>
         <TouchableOpacity onPress={work}>
           <Text
-            style={{ ...styles.btnText, color: working ? "white" : theme.grey }}
+            style={{
+              fontSize: 40,
+              fontWeight: "600",
+              color: "white",
+              color: working ? "white" : theme.grey,
+            }}
           >
             Work
           </Text>
@@ -85,7 +102,9 @@ export default function App() {
         <TouchableOpacity onPress={travel}>
           <Text
             style={{
-              ...styles.btnText,
+              fontSize: 40,
+              fontWeight: "600",
+              color: "white",
               color: !working ? "white" : theme.grey,
             }}
           >
@@ -128,11 +147,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     flexDirection: "row",
     marginTop: 100,
-  },
-  btnText: {
-    fontSize: 40,
-    fontWeight: "600",
-    color: "white",
   },
   input: {
     backgroundColor: "white",
